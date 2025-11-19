@@ -5,6 +5,7 @@ import math
 import time
 
 import discord
+from discord import VoiceState
 from discord.ext import commands
 from discord.ext.commands import has_permissions, BadArgument
 from discord.utils import escape_markdown
@@ -381,6 +382,28 @@ class Actionlog(Cog):
         message_log_channel = await self.edit_delete_config.query_one(guild_id=guild.id)
         if message_log_channel is not None:
             channel = guild.get_channel(message_log_channel.messagelog_channel)
+            if channel is not None:
+                await channel.send(embed=embed)
+
+    @Cog.listener('on_voice_state_update')
+    async def on_voice_state_update(self, member: discord.Member, before: VoiceState, after: VoiceState):
+        if before.channel == after.channel:
+            return
+        action = ""
+        channel = None
+        if before.channel == None:
+            action = "Joined"
+            channel = after.channel
+        else:
+            action = "Left"
+            channel = before.channel
+        embed = discord.Embed(title=f"User {action} VC", color=0xff6700)
+        embed.set_thumbnail(url=member.display_avatar)
+        embed.add_field(name="User", value=f"{member}|({member.id})")
+        embed.add_field(name="Channel",value=f"{channel}")
+        message_log_channel = await self.edit_delete_config.query_one(guild_id=member.guild.id)
+        if message_log_channel is not None:
+            channel = member.guild.get_channel(message_log_channel.messagelog_channel)
             if channel is not None:
                 await channel.send(embed=embed)
 
