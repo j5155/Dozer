@@ -128,7 +128,10 @@ class Moderation(Cog):
         modlog_channel = await GuildModLog.get_by(guild_id=actor.guild.id) if guild_override is None else \
             await GuildModLog.get_by(guild_id=guild_override)
         if orig_channel is not None:
-            await orig_channel.send(embed=modlog_embed)
+            try:
+                await orig_channel.send(embed=modlog_embed)
+            except discord.Forbidden:
+                await orig_channel.send(f"{target} was successfully {action} by {actor}!")
         if len(modlog_channel) != 0:
             if global_modlog:
                 channel = self.bot.get_guild(actor.guild.id if guild_override is None else guild_override). \
