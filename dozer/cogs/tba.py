@@ -67,7 +67,7 @@ class TBA(Cog):
         e = discord.Embed(color=self.col,
                           title=f'FIRST® Robotics Competition Team {team_num}',
                           url=f'https://www.thebluealliance.com/team/{team_num}')
-        e.set_thumbnail(url=f'https://frcavatars.herokuapp.com/get_image?team={team_num}')
+        e.set_thumbnail(url=f'https://dozer.tweirtx.me/avatars/get_image?team={team_num}')
         e.add_field(name='Name', value=team_data.nickname)
         e.add_field(name='Rookie Year', value=team_data.rookie_year)
         e.add_field(name='Location',
@@ -212,7 +212,7 @@ class TBA(Cog):
             e = discord.Embed(color=self.col)
             e.set_author(name=f'FIRST® Robotics Competition Team {team_num}',
                          url=f'https://www.thebluealliance.com/team/{team_num}',
-                         icon_url=f'https://frcavatars.herokuapp.com/get_image?team={team_num}')
+                         icon_url=f'https://dozer.tweirtx.me/avatars/get_image?team={team_num}')
             e.add_field(name='Raw Data', value=f"```py\n {pformat(team_data.__dict__)}```")
             e.set_footer(text=f'Triggered by {ctx.author.display_name}')
             await ctx.send(embed=e)
